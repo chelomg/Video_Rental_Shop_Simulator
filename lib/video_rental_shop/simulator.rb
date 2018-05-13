@@ -16,7 +16,9 @@ module VideoRentalShop
     end
 
     def run
+      create_customer
       @store = Store.instance
+
       @number_of_customer_will_come = @prng.rand(@max_number_of_customer)
       p "Today have #{@number_of_customer_will_come} will come to video rental shop"
 
@@ -31,6 +33,15 @@ module VideoRentalShop
 
     private
 
+    def create_customer
+      customer_categories = [BreezyCustomer, Hoarder, RegularCustomer]
+      @customers = []
+      10.times do
+        @customers << customer_categories.sample.new(Faker::Name.name)
+      end
+      p @customers
+    end
+
     def update_data
     end
 
@@ -38,8 +49,7 @@ module VideoRentalShop
     end
 
     def random_customer
-      customer_categories = [BreezyCustomer, Hoarder, RegularCustomer]
-      p customer_categories.sample.new(Faker::Name.name)
+      p @customers.sample
     end
   end
 end
