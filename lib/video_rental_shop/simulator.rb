@@ -13,7 +13,7 @@ module VideoRentalShop
       @store = Store.instance
 
       loop do
-        p @store
+        #p @store
       end
     end
 
