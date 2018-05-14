@@ -4,6 +4,7 @@ require 'video_rental_shop/drama_video'
 require 'video_rental_shop/comedy_video'
 require 'video_rental_shop/romance_video'
 require 'video_rental_shop/horror_video'
+require 'video_rental_shop/history'
 require 'faker'
 
 module VideoRentalShop
@@ -36,6 +37,25 @@ module VideoRentalShop
 
     def videos
       @collection
+    end
+
+    def rent_video(user, videos, rent_date, due_days)
+      create_borrow_record(user, videos, rent_date, due_days)
+    end
+
+    def create_borrow_record(name, videos, rent_date, due_days)
+      total_price = count_videos_price(videos, due_days)
+      videos_name = videos.map{ |video| video.name }
+      history = History.new(name, videos_name, rent_date, due_days, total_price)
+      history.show
+    end
+
+    def count_videos_price(videos, due_days)
+      price = 0
+      videos.each do |video|
+        price = price + video.price * due_days
+      end
+      price
     end
   end
 end

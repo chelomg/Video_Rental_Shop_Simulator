@@ -15,6 +15,7 @@ module VideoRentalShop
 
       due_day = rand(@due_day_range[0]..@due_day_range[1])
       @rented_list << Rental.new(today_rented_videos, due_day)
+      Store.instance.rent_video(@name, today_rented_videos, Date.today, due_day)
       p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day}"
     end
 
