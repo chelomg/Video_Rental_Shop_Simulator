@@ -23,7 +23,7 @@ module VideoRentalShop
       20.times do
         @collection << video_category.sample.new(Faker::Movie.quote)
       end
-      p @collection
+      #p @collection
     end
 
     def rentable_videos

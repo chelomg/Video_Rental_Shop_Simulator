@@ -5,5 +5,9 @@ module VideoRentalShop
       @is_rented = false
       @due_date = Time.now
     end
+
+    def is_rented?
+      @is_rented
+    end
   end
 end
