@@ -36,8 +36,8 @@ module VideoRentalShop
     def create_customer
       customer_categories = [BreezyCustomer, Hoarder, RegularCustomer]
       @customers = []
-      10.times do
-        @customers << customer_categories.sample.new(Faker::Name.name)
+      10.times do |i|
+        @customers << customer_categories.sample.new(i, Faker::Name.name)
       end
       p @customers
     end

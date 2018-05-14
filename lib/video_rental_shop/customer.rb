@@ -1,7 +1,8 @@
 module VideoRentalShop
   class Customer
 
-    def initialize(name)
+    def initialize(id, name)
+      @id = id
       @name = name
       @rented_list = []
     end
