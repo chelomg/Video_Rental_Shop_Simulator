@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     video_rental_shop (0.1.0)
+      logger-colors
 
 GEM
   remote: https://rubygems.org/
@@ -12,6 +13,7 @@ GEM
       i18n (>= 0.7)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    logger-colors (1.0.0)
     rake (10.5.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)

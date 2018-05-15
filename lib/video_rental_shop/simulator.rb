@@ -4,6 +4,7 @@ require 'video_rental_shop/store'
 require 'video_rental_shop/breezy_customer'
 require 'video_rental_shop/hoarder'
 require 'video_rental_shop/regular_customer'
+require 'video_rental_shop/common/loggable'
 require 'faker'
 require 'timecop'
 
@@ -11,6 +12,7 @@ module VideoRentalShop
   class Simulator
     include Singleton
     include Observable
+    include VideoRentalShop::Common::Loggable
 
     def initialize
       @current_date = Date.today
@@ -23,19 +25,21 @@ module VideoRentalShop
       create_customer
       @store = Store.instance
 
-      35.times do
+      3.times do
         Timecop.freeze(@current_date)
         start_new_day
         @current_date += 1
       end
+
+      show_store_income
     end
 
     private
 
     def start_new_day
-      p "Daily check status"
+      logger.warn "Daily check status"
       notify_customers
-      p "#{@current_date} start!"
+      logger.info "#{@current_date} start!"
       @number_of_customer_will_come = @prng.rand(@max_number_of_customer)
       p "Today have #{@number_of_customer_will_come} customers will come to video rental shop"
 
@@ -47,14 +51,14 @@ module VideoRentalShop
               @number_of_customer_will_come -= 1
               customer.rent_video
             else
-              p "customer #{customer.name} can't rent videos!"
+              logger.error "Customer #{customer.name} can't rent videos!"
             end
           else
-            p "no customer will come today!"
+            logger.error "No customer will come today!\n\n"
             break
           end
         else
-          p "no video can be rented today!"
+          logger.error "No video can be rented today!\n\n"
           break
         end
       end
@@ -68,10 +72,6 @@ module VideoRentalShop
         @customers << customer
         add_observer(customer, :check_rental_deadline)
       end
-      #p @customers
-    end
-
-    def update_data
     end
 
     def check_inventory
@@ -85,6 +85,10 @@ module VideoRentalShop
     def notify_customers
       changed
       notify_observers
+    end
+
+    def show_store_income
+      logger.info "Total income: #{Store.instance.total_income}"
     end
   end
 end

@@ -1,6 +1,9 @@
 require "video_rental_shop/version"
 require "video_rental_shop/simulator"
+require "video_rental_shop/logger"
 
 module VideoRentalShop
-  # Your code goes here...
+  def self.logger
+    @logger ||= VideoRentalShop::Logger.new(STDOUT)
+  end
 end

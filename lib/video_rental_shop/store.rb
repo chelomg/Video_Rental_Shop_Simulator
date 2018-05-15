@@ -10,6 +10,7 @@ require 'faker'
 module VideoRentalShop
   class Store
     include Singleton
+    attr_reader :history_list
 
     def initialize
       @current_date = Date.today
@@ -50,6 +51,14 @@ module VideoRentalShop
       change_videos_status(rented_videos)
     end
 
+    def total_income
+      income = 0
+      @history_list.each do |history|
+        income = income + history.price_amount
+      end
+      income
+    end
+
     private
 
     def change_videos_status(videos)
@@ -63,6 +72,7 @@ module VideoRentalShop
       total_price = count_videos_price(videos, due_days)
       videos_name = videos.map{ |video| video.name }
       history = History.new(name, videos_name, rent_date, due_days, total_price)
+      @history_list << history
       history.show
     end
 

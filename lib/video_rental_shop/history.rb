@@ -1,5 +1,10 @@
+require "video_rental_shop/common/loggable"
+
 module VideoRentalShop
   class History
+    include VideoRentalShop::Common::Loggable
+    attr_reader :price_amount
+
     def initialize(name, video_list, rent_date, due_days, price_amount)
       @customer = name
       @video_list = video_list
@@ -9,7 +14,7 @@ module VideoRentalShop
     end
 
     def show
-      p "Histoy: #{ @customer } rentaled #{@video_list} form #{ @rent_date } for #{ @due_days }, and total price is #{ @price_amount }"
+      logger.info "Histoy: #{ @customer } rentaled #{@video_list} form #{ @rent_date } for #{ @due_days }, and total price is #{ @price_amount }"
     end
   end
 end
