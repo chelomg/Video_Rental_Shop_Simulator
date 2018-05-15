@@ -1,6 +1,7 @@
 module VideoRentalShop
   class Video
     attr_reader :price, :name
+    attr_accessor :is_rented
 
     def initialize(name, price = 0)
       @price = price

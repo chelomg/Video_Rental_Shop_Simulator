@@ -39,8 +39,9 @@ module VideoRentalShop
       @collection
     end
 
-    def rent_video(user, videos, rent_date, due_days)
-      create_borrow_record(user, videos, rent_date, due_days)
+    def rent_video(user, rentable_videos, rent_date, due_days)
+      change_videos_status(rentable_videos)
+      create_borrow_record(user, rentable_videos, rent_date, due_days)
     end
 
     def create_borrow_record(name, videos, rent_date, due_days)
@@ -56,6 +57,13 @@ module VideoRentalShop
         price = price + video.price * due_days
       end
       price
+    end
+
+    def change_videos_status(videos)
+      videos.each do |video|
+        video.is_rented = true
+        p "video #{video.name}, is rented #{video.is_rented}"
+      end
     end
   end
 end
