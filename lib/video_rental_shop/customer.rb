@@ -31,6 +31,15 @@ module VideoRentalShop
       p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day}"
     end
 
+    def check_rental_deadline
+      @rented_list.delete_if do |rental|
+        if rental.is_dued?
+          Store.instance.check_in(rental.get_videos)
+          true
+        end
+      end
+    end
+
     private
 
     def rented_videos_num

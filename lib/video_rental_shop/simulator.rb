@@ -1,30 +1,41 @@
 require 'singleton'
+require 'observer'
 require 'video_rental_shop/store'
 require 'video_rental_shop/breezy_customer'
 require 'video_rental_shop/hoarder'
 require 'video_rental_shop/regular_customer'
 require 'faker'
+require 'timecop'
 
 module VideoRentalShop
   class Simulator
     include Singleton
+    include Observable
 
     def initialize
-      @current_data = Time.now
+      @current_date = Date.today
       @max_number_of_customer = 5
       @prng = Random.new
+      @start_date = Date.today
     end
 
     def run
       create_customer
       @store = Store.instance
 
-      start_new_day
+      35.times do
+        Timecop.freeze(@current_date)
+        start_new_day
+        @current_date += 1
+      end
     end
 
     private
 
     def start_new_day
+      p "Daily check status"
+      notify_customers
+      p "#{@current_date} start!"
       @number_of_customer_will_come = @prng.rand(@max_number_of_customer)
       p "Today have #{@number_of_customer_will_come} customers will come to video rental shop"
 
@@ -46,7 +57,6 @@ module VideoRentalShop
           p "no video can be rented today!"
           break
         end
-
       end
     end
 
@@ -54,7 +64,9 @@ module VideoRentalShop
       customer_categories = [BreezyCustomer, Hoarder, RegularCustomer]
       @customers = []
       10.times do |i|
-        @customers << customer_categories.sample.new(i, Faker::Name.name)
+        customer = customer_categories.sample.new(i, Faker::Name.name)
+        @customers << customer
+        add_observer(customer, :check_rental_deadline)
       end
       #p @customers
     end
@@ -68,6 +80,11 @@ module VideoRentalShop
 
     def random_customer
       @customers.sample
+    end
+
+    def notify_customers
+      changed
+      notify_observers
     end
   end
 end

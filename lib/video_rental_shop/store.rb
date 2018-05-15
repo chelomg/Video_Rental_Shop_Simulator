@@ -12,7 +12,7 @@ module VideoRentalShop
     include Singleton
 
     def initialize
-      @current_date = Time.now
+      @current_date = Date.today
       @history_list = []
       @customer_list = []
       create_videos
@@ -40,8 +40,23 @@ module VideoRentalShop
     end
 
     def rent_video(user, rentable_videos, rent_date, due_days)
+      p "renting video ..."
       change_videos_status(rentable_videos)
       create_borrow_record(user, rentable_videos, rent_date, due_days)
+    end
+
+    def check_in(rented_videos)
+      p "check in video ..."
+      change_videos_status(rented_videos)
+    end
+
+    private
+
+    def change_videos_status(videos)
+      videos.each do |video|
+        video.is_rented = !video.is_rented
+        p "video #{video.name}, is_rented? #{video.is_rented}"
+      end
     end
 
     def create_borrow_record(name, videos, rent_date, due_days)
@@ -57,13 +72,6 @@ module VideoRentalShop
         price = price + video.price * due_days
       end
       price
-    end
-
-    def change_videos_status(videos)
-      videos.each do |video|
-        video.is_rented = true
-        p "video #{video.name}, is rented #{video.is_rented}"
-      end
     end
   end
 end
