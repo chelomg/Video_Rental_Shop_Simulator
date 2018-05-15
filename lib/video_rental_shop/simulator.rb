@@ -25,7 +25,7 @@ module VideoRentalShop
       create_customer
       @store = Store.instance
 
-      3.times do
+      35.times do
         Timecop.freeze(@current_date)
         start_new_day
         @current_date += 1
