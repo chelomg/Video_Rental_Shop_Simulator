@@ -7,7 +7,6 @@ module VideoRentalShop
       @price = price
       @name = name
       @is_rented = false
-      @due_date = Time.now
     end
 
     def is_rented?
