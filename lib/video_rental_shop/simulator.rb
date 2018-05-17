@@ -32,11 +32,13 @@ module VideoRentalShop
       end
 
       show_store_income
+      p ""
     end
 
     private
 
     def start_new_day
+      sleep(1)
       logger.warn "Daily check status"
       notify_customers
       logger.info "#{@current_date} start!"
@@ -88,7 +90,7 @@ module VideoRentalShop
     end
 
     def show_store_income
-      logger.info "Total income: #{Store.instance.total_income}"
+      logger.info "Simulator stopped! Total income: $#{Store.instance.total_income}"
     end
   end
 end

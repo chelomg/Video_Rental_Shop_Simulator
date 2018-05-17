@@ -25,7 +25,6 @@ module VideoRentalShop
       20.times do
         @collection << video_category.sample.new(Faker::Movie.quote)
       end
-      #p @collection
     end
 
     def rentable_videos
@@ -41,13 +40,15 @@ module VideoRentalShop
     end
 
     def rent_video(user, rentable_videos, rent_date, due_days)
-      p "renting video ..."
+      p "Renting video ..."
+      sleep(0.5)
       change_videos_status(rentable_videos)
       create_borrow_record(user, rentable_videos, rent_date, due_days)
     end
 
     def check_in(rented_videos)
-      p "check in video ..."
+      p "Check in video ..."
+      sleep(0.5)
       change_videos_status(rented_videos)
     end
 
@@ -64,7 +65,7 @@ module VideoRentalShop
     def change_videos_status(videos)
       videos.each do |video|
         video.is_rented = !video.is_rented
-        p "video #{video.name}, is_rented? #{video.is_rented}"
+        p "Video: #{video.name}, is_rented? #{video.is_rented}"
       end
     end
 

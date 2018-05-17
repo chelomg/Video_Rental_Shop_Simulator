@@ -28,7 +28,7 @@ module VideoRentalShop
       @rented_list << Rental.new(today_rented_videos, due_day)
       Store.instance.rent_video(@name, today_rented_videos, Date.today, due_day)
 
-      p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day}"
+      p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day} days"
     end
 
     def check_rental_deadline
