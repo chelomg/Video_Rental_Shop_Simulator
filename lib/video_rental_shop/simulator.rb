@@ -32,7 +32,6 @@ module VideoRentalShop
       end
 
       show_store_income
-      p ""
     end
 
     private
