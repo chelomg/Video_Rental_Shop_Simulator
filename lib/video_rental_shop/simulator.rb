@@ -111,7 +111,7 @@ module VideoRentalShop
     def show_rentals
       logger.info "Active rental list:"
       num = 1
-      @customers.index do |customer|
+      @customers.each do |customer|
         puts "#{num}. #{customer.class.name.split('::').last}: #{customer.name}" unless customer.rented_list.empty?
         sleep(0.3)
         customer.rented_list.each do |rental|
