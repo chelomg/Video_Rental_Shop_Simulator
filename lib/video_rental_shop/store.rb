@@ -12,7 +12,7 @@ module VideoRentalShop
   class Store
     include Singleton
     include VideoRentalShop::Common::Loggable
-    attr_reader :history_list
+    attr_reader :history_list, :collection
 
     def initialize
       @current_date = Date.today

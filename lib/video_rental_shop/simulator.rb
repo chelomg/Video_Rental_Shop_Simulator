@@ -31,7 +31,7 @@ module VideoRentalShop
         @current_date += 1
       end
 
-      show_store_income
+      stop
     end
 
     private
@@ -88,8 +88,46 @@ module VideoRentalShop
       notify_observers
     end
 
+    def show_store_rentable_videos
+      logger.info "Rentable video list:"
+      Store.instance.rentable_videos.each_with_index do |video, index|
+        puts "#{index + 1}. #{video.name}"
+        sleep(0.3)
+      end
+    end
+
     def show_store_income
-      logger.info "Simulator stopped! Total income: $#{Store.instance.total_income}"
+      logger.info "Total income: $#{Store.instance.total_income}."
+    end
+
+    def show_histories
+      logger.info "Histories in past 35 days:"
+      Store.instance.history_list.each_with_index do |history, index|
+        sleep(0.3)
+        puts "#{index + 1}. #{history.record}"
+      end
+    end
+
+    def show_rentals
+      logger.info "Active rental list:"
+      num = 1
+      @customers.index do |customer|
+        puts "#{num}. #{customer.class.name.split('::').last}: #{customer.name}" unless customer.rented_list.empty?
+        sleep(0.3)
+        customer.rented_list.each do |rental|
+          puts "  * #{rental.record}"
+          sleep(0.3)
+        end
+        num += 1
+      end
+    end
+
+    def stop
+      show_store_rentable_videos
+      show_histories
+      show_rentals
+      show_store_income
+      logger.info "Simulator Stop!"
     end
   end
 end

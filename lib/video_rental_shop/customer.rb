@@ -3,7 +3,7 @@ require "video_rental_shop/rental"
 
 module VideoRentalShop
   class Customer
-    attr_reader :name
+    attr_reader :name, :rented_list
 
     def initialize(id, name, rented_range = [1, 1], due_day_range = [1, 1])
       @id = id
@@ -48,9 +48,6 @@ module VideoRentalShop
         num = num + rental.get_videos.size unless rental.is_dued?
       end
       num
-    end
-
-    def create_rental
     end
   end
 end

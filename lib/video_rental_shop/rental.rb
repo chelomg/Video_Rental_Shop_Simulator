@@ -16,5 +16,9 @@ module VideoRentalShop
     def is_dued?
       (Date.today - @rent_date).to_i >= @due_days
     end
+
+    def record
+      "rented videos: #{@video_list.map{ |video| video.name }}, form #{@rent_date} for #{@due_days} days."
+    end
   end
 end
