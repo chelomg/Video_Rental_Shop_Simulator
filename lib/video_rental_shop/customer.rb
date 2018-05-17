@@ -28,13 +28,13 @@ module VideoRentalShop
       @rented_list << Rental.new(today_rented_videos, due_day)
       Store.instance.rent_video(@name, today_rented_videos, Date.today, due_day)
 
-      p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day} days"
+      #p "#{Time.now} #{self.class.name.split('::').last} #{@name} rented #{today_rented_videos.size} videos for #{due_day} days"
     end
 
     def check_rental_deadline
       @rented_list.delete_if do |rental|
         if rental.is_dued?
-          Store.instance.check_in(rental.get_videos)
+          Store.instance.check_in(@name, rental.get_videos)
           true
         end
       end

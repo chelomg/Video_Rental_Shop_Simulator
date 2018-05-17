@@ -5,11 +5,13 @@ require 'video_rental_shop/comedy_video'
 require 'video_rental_shop/romance_video'
 require 'video_rental_shop/horror_video'
 require 'video_rental_shop/history'
+require 'video_rental_shop/common/loggable'
 require 'faker'
 
 module VideoRentalShop
   class Store
     include Singleton
+    include VideoRentalShop::Common::Loggable
     attr_reader :history_list
 
     def initialize
@@ -39,15 +41,15 @@ module VideoRentalShop
       @collection
     end
 
-    def rent_video(user, rentable_videos, rent_date, due_days)
-      p "Renting video ..."
+    def rent_video(user_name, rentable_videos, rent_date, due_days)
+      puts "#{user_name}: Renting video ..."
       sleep(0.5)
       change_videos_status(rentable_videos)
-      create_borrow_record(user, rentable_videos, rent_date, due_days)
+      create_borrow_record(user_name, rentable_videos, rent_date, due_days)
     end
 
-    def check_in(rented_videos)
-      p "Check in video ..."
+    def check_in(user_name, rented_videos)
+      puts "#{user_name}: Check in video ..."
       sleep(0.5)
       change_videos_status(rented_videos)
     end
@@ -65,7 +67,7 @@ module VideoRentalShop
     def change_videos_status(videos)
       videos.each do |video|
         video.is_rented = !video.is_rented
-        p "Video: #{video.name}, is_rented? #{video.is_rented}"
+        puts "  Video: '#{video.name}', is rented? #{video.is_rented}"
       end
     end
 
