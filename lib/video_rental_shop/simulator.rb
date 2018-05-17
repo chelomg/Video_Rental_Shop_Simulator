@@ -118,7 +118,7 @@ module VideoRentalShop
           puts "  * #{rental.record}"
           sleep(0.3)
         end
-        num += 1
+        num += 1 unless customer.rented_list.empty?
       end
     end
 
