@@ -14,7 +14,7 @@ module VideoRentalShop
     end
 
     def show
-      logger.info "Histoy: #{ @customer } rentaled #{@video_list} form #{ @rent_date } for #{ @due_days }, and total price is #{ @price_amount }"
+      logger.info "Histoy: #{ @customer } rentaled #{@video_list} form #{ @rent_date } for #{ @due_days } days, and total price is #{ @price_amount }"
     end
 
     def record
